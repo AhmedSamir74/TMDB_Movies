@@ -15,8 +15,12 @@ export interface IState {
 }
 
 export interface IMovie {
+  id: number;
   poster_path: string | null;
   original_title: string;
   overview: string;
   release_date: string | number | Date;
+  title: string;
+  vote_average: string | number;
+  original_language: string;
 }
