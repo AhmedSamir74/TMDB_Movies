@@ -1,39 +1,49 @@
-import React from 'react';
-import { Image, Text, View } from 'react-native';
-import { IMovie, IMyMovie } from '../../models';
-import { Card } from '../UI';
-import { styles } from './style';
+import React from "react";
+import { Image, Text, View } from "react-native";
+import { strings } from "../../localization/i18n";
+import { IMovie } from "../../models";
+import { Card } from "../UI";
+import { styles } from "./style";
 
-export const MovieCard = ({ item, myMovie }: { item?: IMovie; myMovie?: IMyMovie }) => {
-    return (
-        <Card disabled>
-            <View style={styles.cardCont}>
-                <Image
-                    source={
-                        item
-                            ? item.poster_path
-                                ? {
-                                      uri: `https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${item.poster_path}`,
-                                  }
-                                : require('../../assets/logo.png')
-                            : myMovie
-                            ? {
-                                  uri: myMovie.img,
-                              }
-                            : require('../../assets/logo.png')
-                    }
-                    style={styles.cardImg}
-                />
-                <View style={styles.textCont}>
-                    <Text style={styles.title}>{item?.original_title || myMovie?.title}</Text>
-                    <Text style={styles.overview} numberOfLines={3}>
-                        {item?.overview || myMovie?.overview}
-                    </Text>
-                    <Text style={styles.date}>
-                        {item?.release_date || myMovie?.date?.toDateString()}
-                    </Text>
-                </View>
+export const MovieCard = ({ item }: { item: IMovie }) => {
+  return (
+    <Card disabled>
+      <View style={styles.cardCont}>
+        <View>
+          <Image
+            source={
+              item.poster_path
+                ? {
+                    uri: `https://www.themoviedb.org/t/p/w150_and_h150_bestv2/${item.poster_path}`,
+                  }
+                : require("../../assets/logo.png")
+            }
+            style={styles.cardImg}
+          />
+          <View style={styles.voteCont}>
+            <Text style={styles.subtitle}>{strings("voteAverage")}:</Text>
+            <Text style={styles.date}>{item.vote_average}</Text>
+          </View>
+        </View>
+        <View style={styles.textCont}>
+          <View>
+            <View style={styles.titleCont}>
+              <Text style={styles.title} numberOfLines={3}>
+                {item.title}
+              </Text>
             </View>
-        </Card>
-    );
+            <Text style={styles.overview} numberOfLines={4}>
+              {item.overview}
+            </Text>
+          </View>
+          <View style={styles.cardFooter}>
+            <Text style={styles.date}>{item.release_date}</Text>
+            <Text style={styles.language}>
+              {item.original_language.toUpperCase()}
+            </Text>
+          </View>
+        </View>
+      </View>
+    </Card>
+  );
 };

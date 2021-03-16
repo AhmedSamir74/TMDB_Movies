@@ -1,9 +1,9 @@
 import { StyleSheet } from "react-native";
+import { theme } from "../../../constants";
 
 export default StyleSheet.create({
   cardCont: {
-    height: 125,
-    backgroundColor: "white",
+    backgroundColor: theme.colors.accent,
     borderRadius: 15,
     borderColor: "#000",
     padding: 5,

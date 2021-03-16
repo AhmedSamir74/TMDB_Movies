@@ -1,17 +1,18 @@
 const en = {
-    //General
-    getStarted: 'skip',
-    pickPoster: 'Pick a poster',
-    title: 'Title',
-    overview: 'Overview',
-    date: 'Date',
-    submit: 'Submit',
-    myMovies: 'My Movies',
-    allMovies: 'All Movies',
-    emptyList: 'Your Movies List Is Empty',
-    addMovie: 'Add Movie',
-    confirm: 'Confirm',
-    cancel: 'Cancel',
+  //General
+  getStarted: "skip",
+  pickPoster: "Pick a poster",
+  title: "Title",
+  overview: "Overview",
+  date: "Date",
+  submit: "Submit",
+  myMovies: "My Movies",
+  allMovies: "All Movies",
+  emptyList: "Your Movies List Is Empty",
+  addMovie: "Add Movie",
+  confirm: "Confirm",
+  cancel: "Cancel",
+  voteAverage: "Vote average",
 };
 
 export default en;
