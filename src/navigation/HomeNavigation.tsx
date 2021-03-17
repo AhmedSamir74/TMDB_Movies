@@ -5,6 +5,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { theme } from "../constants";
 import HomeScreen from "../screens/Home/Home";
 import { AddMovieScreen } from "../screens/AddMovie";
+import MovieDetails from "../screens/MovieDetails/MovieDetails";
 
 const HomeFlow = createStackNavigator();
 
@@ -26,7 +27,7 @@ const HomeNavigation = () => (
           headerRight: () => (
             <MaterialCommunityIcons
               name="heart"
-              color={theme.colors.primary}
+              color={theme.colors.white}
               size={26}
               style={{ marginHorizontal: 10 }}
               onPress={() => navigation.navigate("AddMovie")}
@@ -36,16 +37,24 @@ const HomeNavigation = () => (
       }}
     />
     <HomeFlow.Screen
+      name="MovieDetails"
+      component={MovieDetails}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <HomeFlow.Screen
       name="AddMovie"
       component={AddMovieScreen}
       options={({ navigation }) => {
         return {
           headerTitle: "Add Movie",
           headerStyle: {
-            backgroundColor: theme.colors.backdrop,
+            backgroundColor: theme.colors.accent,
           },
           headerTitleStyle: {
             fontWeight: "bold",
+            color: theme.colors.white,
           },
         };
       }}
