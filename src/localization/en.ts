@@ -13,6 +13,9 @@ const en = {
   confirm: "Confirm",
   cancel: "Cancel",
   voteAverage: "Vote average",
+  language: "Language",
+  genres: "Genres",
+  productionCompanies: "Production Companies",
 };
 
 export default en;

@@ -16,6 +16,21 @@ class MoviesManager {
       return { status: false, data: statusText };
     }
   }
+
+  async getMovieDetails(id: number) {
+    let { data: response, statusText, status } = await APIKit.get(
+      `movie/${id}`
+    );
+
+    if (status == 200) {
+      return {
+        status: true,
+        data: response,
+      };
+    } else {
+      return { status: false, data: statusText };
+    }
+  }
 }
 
 export default MoviesManager;

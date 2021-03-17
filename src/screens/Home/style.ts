@@ -1,9 +1,16 @@
 import { StyleSheet } from "react-native";
-import { theme } from "../../constants";
+import { SCREEN_WIDTH, theme } from "../../constants";
 export const styles = StyleSheet.create({
   layout: {
     flex: 1,
     backgroundColor: theme.colors.background,
+  },
+  searchBarCont: {
+    height: 100,
+    width: SCREEN_WIDTH,
+    overflow: "hidden",
+    position: "absolute",
+    zIndex: 1,
   },
   cardCont: {
     width: "100%",
@@ -106,6 +113,10 @@ export const styles = StyleSheet.create({
   searchBar: {
     backgroundColor: theme.colors.accent,
     marginVertical: 15,
+    marginHorizontal: 10,
+  },
+  floatingSearchBar: {
+    backgroundColor: theme.colors.veryLightGrey,
     marginHorizontal: 10,
   },
   searchBarInput: {

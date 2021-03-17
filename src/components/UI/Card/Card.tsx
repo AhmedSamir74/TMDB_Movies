@@ -6,15 +6,17 @@ export const Card = ({
   disabled,
   children,
   onPress,
+  style,
 }: {
   disabled?: boolean | undefined;
   children?: any;
   onPress?: any;
+  style?: any;
 }) => {
   return (
     <TouchableOpacity
       disabled={disabled}
-      style={styles.cardCont}
+      style={[styles.cardCont, style]}
       onPress={onPress}
       activeOpacity={0.7}
     >

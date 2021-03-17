@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Image, Text, View } from "react-native";
 import { strings } from "../../localization/i18n";
@@ -6,8 +7,15 @@ import { Card } from "../UI";
 import { styles } from "./style";
 
 export const MovieCard = ({ item }: { item: IMovie }) => {
+  const navigation = useNavigation();
   return (
-    <Card disabled>
+    <Card
+      onPress={() =>
+        navigation.navigate("MovieDetails", {
+          id: item.id,
+        })
+      }
+    >
       <View style={styles.cardCont}>
         <View>
           <Image
