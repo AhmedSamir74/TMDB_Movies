@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {
   ActivityIndicator,
+  Animated,
   FlatList,
   Image,
   ScrollView,
@@ -18,6 +19,10 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { IMovie } from "../../models";
 import { strings } from "../../localization/i18n";
 import { Card } from "../../components/UI";
+import {
+  addToFavorite,
+  removeFromFavorite,
+} from "../../services/redux/actions";
 
 const LoaderComp = () => {
   return (
@@ -29,16 +34,21 @@ const LoaderComp = () => {
 
 class MovieDetails extends Component<any> {
   moviesManager: MoviesManager;
+  toastFadeAnimation: Animated.Value;
   state: {
     requestLoading: boolean;
     movie: IMovie | null;
+    isFavorite: boolean;
   };
   constructor(props: any) {
     super(props);
     this.moviesManager = new MoviesManager();
+    this.toastFadeAnimation = new Animated.Value(-200);
+
     this.state = {
       requestLoading: true,
       movie: null,
+      isFavorite: false,
     };
   }
 
@@ -49,7 +59,6 @@ class MovieDetails extends Component<any> {
   async getMovieDetails() {
     let { id } = this.props.route.params;
     const { status, data } = await this.moviesManager.getMovieDetails(id);
-    // console.log(JSON.stringify(data, null, 4));
 
     if (status) {
       this.setState({
@@ -59,8 +68,68 @@ class MovieDetails extends Component<any> {
     } else {
       showToast(data);
     }
+    let isMovieInFavorites = this.props.favorites.findIndex(
+      (movie: IMovie) => movie.id == id
+    );
+    if (isMovieInFavorites != -1) {
+      this.setState({ isFavorite: true });
+    }
   }
 
+  showAnimatedToast() {
+    Animated.timing(this.toastFadeAnimation, {
+      toValue: 0,
+      duration: 800,
+      useNativeDriver: true,
+    }).start(() => {
+      setTimeout(() => {
+        Animated.timing(this.toastFadeAnimation, {
+          toValue: -200,
+          duration: 500,
+          useNativeDriver: true,
+        }).start();
+      }, 3000);
+    });
+  }
+
+  onFavoritePress() {
+    this.setState({ isFavorite: !this.state.isFavorite });
+    if (this.state.isFavorite) {
+      this.props.removeFromFavorites(this.state.movie?.id);
+    } else {
+      this.props.addToFavorites(this.state.movie);
+      this.showAnimatedToast();
+    }
+  }
+
+  renderAnimatedToast() {
+    return (
+      <Animated.View
+        style={[
+          styles.toastCont,
+          {
+            transform: [{ translateY: this.toastFadeAnimation }],
+          },
+        ]}
+      >
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => this.props.navigation?.navigate("Favorites")}
+        >
+          <View style={styles.touchableOpacity}>
+            <View style={styles.toastImageCont}>
+              <Image
+                source={require("../../assets/images/wh-check.png")}
+                style={styles.checkMark}
+                resizeMode="contain"
+              />
+              <Text style={styles.toastText}>{strings("addedToFav")}</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </Animated.View>
+    );
+  }
   render() {
     const { movie, requestLoading } = this.state;
     return (
@@ -70,6 +139,8 @@ class MovieDetails extends Component<any> {
           backgroundColor="transparent"
           translucent
         />
+
+        {this.renderAnimatedToast()}
 
         <TouchableOpacity
           style={styles.backIcon}
@@ -85,11 +156,11 @@ class MovieDetails extends Component<any> {
 
         <TouchableOpacity
           style={[styles.backIcon, styles.favIcon]}
-          onPress={() => this.props.navigation.goBack()}
+          onPress={() => this.onFavoritePress()}
           activeOpacity={0.6}
         >
           <MaterialCommunityIcons
-            name="heart-outline"
+            name={this.state.isFavorite ? "heart" : "heart-outline"}
             color={theme.colors.background}
             size={30}
           />
@@ -173,7 +244,7 @@ class MovieDetails extends Component<any> {
                 ) : null}
 
                 {/* STORIES */}
-                {movie.production_companies?.length && (
+                {movie.production_companies?.length != 0 && (
                   <View style={styles.sectionCont}>
                     <Text style={styles.sectionTitle}>
                       {strings("productionCompanies")}
@@ -215,7 +286,12 @@ class MovieDetails extends Component<any> {
 }
 
 const mapStateToProps = (state: any) => ({
-  myMovies: state.movies.data,
+  favorites: state.favorites.list,
 });
 
-export default connect(mapStateToProps)(MovieDetails);
+const dispatchToProps = (dispatch: any) => ({
+  addToFavorites: (movie: IMovie) => dispatch(addToFavorite(movie)),
+  removeFromFavorites: (id: number) => dispatch(removeFromFavorite(id)),
+});
+
+export default connect(mapStateToProps, dispatchToProps)(MovieDetails);

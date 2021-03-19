@@ -10,12 +10,6 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  listEmptyCont: {
-    width: SCREEN_WIDTH,
-    marginBottom: 15,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   scrollView: {
     flex: 1,
   },
@@ -138,5 +132,42 @@ export const styles = StyleSheet.create({
     left: 5,
     fontSize: 12,
     paddingHorizontal: 10,
+  },
+
+  //ANIMATED TOAST
+  checkMark: {
+    width: 18,
+    height: 18,
+    alignSelf: "center",
+  },
+  toastCont: {
+    position: "absolute",
+    top: 15,
+    zIndex: 1111,
+    left: 10,
+    right: 10,
+    height: 55,
+  },
+  toastText: {
+    color: "#fff",
+    fontSize: 16,
+    marginHorizontal: 10,
+    textAlignVertical: "center",
+    alignSelf: "center",
+    textTransform: "uppercase",
+  },
+  touchableOpacity: {
+    marginEnd: 5,
+    backgroundColor: "#486581",
+    borderRadius: 16,
+    paddingVertical: 25,
+    paddingHorizontal: 19,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  toastImageCont: {
+    flex: 1,
+    flexDirection: "row",
   },
 });
