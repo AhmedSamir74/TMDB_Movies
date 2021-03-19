@@ -3,9 +3,11 @@ import React from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { theme } from "../constants";
+import { strings } from "../localization/i18n";
 import HomeScreen from "../screens/Home/Home";
-import { AddMovieScreen } from "../screens/AddMovie";
 import MovieDetails from "../screens/MovieDetails/MovieDetails";
+import FavoritesScreen from "../screens/Favorites/Favorites";
+import { View } from "react-native";
 
 const HomeFlow = createStackNavigator();
 
@@ -16,7 +18,7 @@ const HomeNavigation = () => (
       component={HomeScreen}
       options={({ navigation }) => {
         return {
-          headerTitle: "Movies Home",
+          headerTitle: strings("moviesHome"),
           headerStyle: {
             backgroundColor: theme.colors.accent,
           },
@@ -30,7 +32,7 @@ const HomeNavigation = () => (
               color={theme.colors.white}
               size={26}
               style={{ marginHorizontal: 10 }}
-              onPress={() => navigation.navigate("AddMovie")}
+              onPress={() => navigation.navigate("Favorites")}
             />
           ),
         };
@@ -44,11 +46,11 @@ const HomeNavigation = () => (
       }}
     />
     <HomeFlow.Screen
-      name="AddMovie"
-      component={AddMovieScreen}
+      name="Favorites"
+      component={FavoritesScreen}
       options={({ navigation }) => {
         return {
-          headerTitle: "Add Movie",
+          headerTitle: strings("favorites"),
           headerStyle: {
             backgroundColor: theme.colors.accent,
           },
@@ -56,6 +58,16 @@ const HomeNavigation = () => (
             fontWeight: "bold",
             color: theme.colors.white,
           },
+          headerLeft: () => (
+            <MaterialCommunityIcons
+              name="chevron-left"
+              color={theme.colors.white}
+              size={35}
+              style={{ paddingHorizontal: 10 }}
+              onPress={() => navigation.goBack()}
+            />
+          ),
+          headerRight: () => <View />,
         };
       }}
     />

@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import { View, Image } from "react-native";
 import styles from "./style";
-import { getNewToken, isNewUser } from "../../services/controllers";
+import { createNewGuestSessionID, isNewUser } from "../../services/controllers";
 import { useDispatch } from "react-redux";
-import { saveToken } from "../../services/redux/actions";
+import { saveSession } from "../../services/redux/actions";
+import { _retrieveData } from "../../services/controllers/storageController";
 
 export const LoadingScreen = (props: any) => {
   const dispatch = useDispatch();
   const newUserHelper = async () => {
     const returnedNewUser = await isNewUser();
-    // console.log(returnedNewUser);
     if (returnedNewUser) {
       props.navigation.navigate("OnBoarding");
     } else {
@@ -18,14 +18,21 @@ export const LoadingScreen = (props: any) => {
   };
   useEffect(() => {
     newUserHelper();
-    initializeToken();
+    initializeSession();
   }, []);
 
-  const initializeToken = async () => {
-    const { status, data } = await getNewToken();
-    if (status) {
-      dispatch(saveToken(data));
-    }
+  const initializeSession = async () => {
+    _retrieveData("sessionId").then(async (sessionId) => {
+      if (!sessionId) {
+        const { status, data } = await createNewGuestSessionID();
+
+        if (status) {
+          dispatch(saveSession(data));
+        }
+      } else {
+        dispatch(saveSession(sessionId));
+      }
+    });
   };
   return (
     <View style={styles.container}>

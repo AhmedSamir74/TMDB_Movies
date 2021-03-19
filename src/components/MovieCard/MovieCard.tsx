@@ -5,8 +5,21 @@ import { strings } from "../../localization/i18n";
 import { IMovie } from "../../models";
 import { Card } from "../UI";
 import { styles } from "./style";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { theme } from "../../constants";
+import Highlighter from "react-native-highlight-words";
 
-export const MovieCard = ({ item }: { item: IMovie }) => {
+export const MovieCard = ({
+  item,
+  favoriteCard,
+  onFavIconPress,
+  searchWords = "",
+}: {
+  item: IMovie;
+  favoriteCard?: boolean;
+  onFavIconPress?: Function;
+  searchWords?: string;
+}) => {
   const navigation = useNavigation();
   return (
     <Card
@@ -37,8 +50,21 @@ export const MovieCard = ({ item }: { item: IMovie }) => {
           <View>
             <View style={styles.titleCont}>
               <Text style={styles.title} numberOfLines={3}>
-                {item.title}
+                <Highlighter
+                  highlightStyle={{ backgroundColor: "#8e2025" }}
+                  searchWords={[searchWords]}
+                  textToHighlight={item.title}
+                />
               </Text>
+              {favoriteCard && onFavIconPress && (
+                <MaterialCommunityIcons
+                  name="trash-can-outline"
+                  color={theme.colors.error}
+                  size={26}
+                  style={{ marginHorizontal: 10 }}
+                  onPress={() => onFavIconPress()}
+                />
+              )}
             </View>
             <Text style={styles.overview} numberOfLines={4}>
               {item.overview}
