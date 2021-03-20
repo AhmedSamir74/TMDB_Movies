@@ -1,29 +1,25 @@
-import React from 'react';
-import renderer from 'react-test-renderer';
-import { MovieCard } from '../src/components';
-
-beforeAll(() => {
-    jest.mock('@react-native-community/async-storage');
-});
-
-test('renders correctly', () => {
-    let movie = {
-        adult: false,
-        backdrop_path: '/srYya1ZlI97Au4jUYAktDe3avyA.jpg',
-        genre_ids: [14, 28, 12],
-        id: 464052,
-        original_language: 'en',
-        original_title: 'Wonder Woman 1984',
-        overview:
-            'Wonder Woman comes into conflict with the Soviet Union during the Cold War in the 1980s and finds a formidable foe by the name of the Cheetah.',
-        popularity: 3663.168,
-        poster_path: '/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg',
-        release_date: '2020-12-16',
-        title: 'Wonder Woman 1984',
-        video: false,
-        vote_average: 7.2,
-        vote_count: 2727,
-    };
-    const tree = renderer.create(<MovieCard item={movie} />).toJSON();
-    expect(tree).toMatchSnapshot();
+import React from "react";
+import renderer from "react-test-renderer";
+import { MovieCard } from "../src/components";
+import MockedNavigator from "./MockedNavigator";
+it("renders correctly across screens", () => {
+  let movie = {
+    adult: false,
+    backdrop_path: "/ezLKohe4HKsHQbwQwhv0ARo83NC.jpg",
+    genre_ids: [10751, 14, 12, 35],
+    id: 624963,
+    original_language: "en",
+    original_title: "A Babysitter's Guide to Monster Hunting",
+    overview:
+      "Recruited by a secret society of babysitters, a high schooler battles the Boogeyman and his monsters when they nab the boy she's watching on Halloween.",
+    popularity: 90.12,
+    poster_path: "/bkld8Me0WiLWipLORRNfF1yIPHu.jpg",
+    release_date: "2020-10-14",
+    title: "A Babysitter's Guide to Monster Hunting",
+    video: false,
+    vote_average: 6.3,
+    vote_count: 181,
+  };
+  const tree = renderer.create(<MovieCard item={movie} />).toJSON();
+  expect(tree).toMatchSnapshot();
 });

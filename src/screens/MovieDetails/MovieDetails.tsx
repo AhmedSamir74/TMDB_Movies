@@ -11,7 +11,6 @@ import {
   View,
 } from "react-native";
 import { styles } from "./style";
-import { showToast } from "../../services/controllers/storageController";
 import MoviesManager from "../../services/endpoints/moviesManager";
 import { theme } from "../../constants";
 import { connect } from "react-redux";
@@ -23,6 +22,7 @@ import {
   addToFavorite,
   removeFromFavorite,
 } from "../../services/redux/actions";
+import AnimatedToast from "../../components/UI/AnimatedToast/AnimatedToast";
 
 const LoaderComp = () => {
   return (
@@ -35,6 +35,8 @@ const LoaderComp = () => {
 class MovieDetails extends Component<any> {
   moviesManager: MoviesManager;
   toastFadeAnimation: Animated.Value;
+  animatedToast: any;
+
   state: {
     requestLoading: boolean;
     movie: IMovie | null;
@@ -66,7 +68,11 @@ class MovieDetails extends Component<any> {
         requestLoading: false,
       });
     } else {
-      showToast(data);
+      this.setState({
+        movie: [],
+        requestLoading: false,
+      });
+      this.animatedToast.showToast(data);
     }
     let isMovieInFavorites = this.props.favorites.findIndex(
       (movie: IMovie) => movie.id == id
@@ -280,6 +286,7 @@ class MovieDetails extends Component<any> {
             </ScrollView>
           )
         )}
+        <AnimatedToast onRef={(ref: any) => (this.animatedToast = ref)} />
       </View>
     );
   }

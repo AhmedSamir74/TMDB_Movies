@@ -1,3 +1,4 @@
+import { View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -7,7 +8,6 @@ import { strings } from "../localization/i18n";
 import HomeScreen from "../screens/Home/Home";
 import MovieDetails from "../screens/MovieDetails/MovieDetails";
 import FavoritesScreen from "../screens/Favorites/Favorites";
-import { View } from "react-native";
 
 const HomeFlow = createStackNavigator();
 

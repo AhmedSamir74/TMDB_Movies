@@ -13,7 +13,7 @@ class MoviesManager {
         pages: response.total_pages,
       };
     } else {
-      return { status: false, data: statusText };
+      return { status: false, data: "Boom", page: 0, pages: 0 };
     }
   }
 
