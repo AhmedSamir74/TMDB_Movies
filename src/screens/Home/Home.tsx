@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 import { ActivityIndicator, FlatList, StatusBar, View } from "react-native";
 import { styles } from "./style";
-import { showToast } from "../../services/controllers/storageController";
 import MoviesManager from "../../services/endpoints/moviesManager";
 import { theme } from "../../constants";
 import { IMovie, IState } from "../../models";
 import { MovieCard } from "../../components";
 import { Searchbar } from "react-native-paper";
 import { throttle } from "lodash";
+import AnimatedToast from "../../components/UI/AnimatedToast/AnimatedToast";
 
 const NUM_OF_MOVIES_PER_SCREEN = 8;
 class HomeScreen extends Component<any> {
   moviesManager: MoviesManager;
   handleSearchThrottled: any;
-
+  animatedToast: any;
   constructor(props: any) {
     super(props);
     this.moviesManager = new MoviesManager();
@@ -50,7 +50,8 @@ class HomeScreen extends Component<any> {
         pages,
       }));
     } else {
-      showToast(data);
+      this.setState({ movies: [], requestLoading: false, refreshing: false });
+      this.animatedToast.showToast(data);
     }
   }
   onChangeSearch(searchQuery: string) {
@@ -105,6 +106,7 @@ class HomeScreen extends Component<any> {
             />
           </View>
         )}
+        <AnimatedToast onRef={(ref: any) => (this.animatedToast = ref)} />
       </View>
     );
   }
